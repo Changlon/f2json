@@ -1,0 +1,27 @@
+{
+  "name": "f2json",
+  "version": "1.0.0",
+  "description": "Quickly create read-write json files",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Changlon/f2json.git"
+  },
+  "author": "'Changlon' <'changlong.a2@gmail.com'> (https://github.com/Changlon/)",
+  "license": "MIT",
+  "private": false,
+  "keywords": [
+    "f2json",
+    "file",
+    "json",
+    "file-to-json",
+    "fs"
+  ],
+  "bugs": {
+    "url": "https://github.com/Changlon/f2json/issues"
+  },
+  "homepage": "https://github.com/Changlon/f2json#readme",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
