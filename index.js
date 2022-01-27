@@ -77,6 +77,19 @@ function file2json(path,encoding) {
      if(typeof path !== "string" )  throw new F2Json("invalid param of path ,require type string !")
 
     try { 
+
+        if(path.startsWith(".")){
+            path = PATH.join(__dirname,path) 
+        }else if(path.startsWith("@/")) {
+            path = path.replace("@/","")  
+            path = PATH.join( 
+                
+                FS.existsSync(PATH.join(__dirname,"./src")) ?  
+                      PATH.join(__dirname,"./src")
+                : __dirname
+                ,path) 
+            console.log(path)
+        }
         
         let content = FS.readFileSync(path,{
             encoding: encoding || "utf-8"
@@ -96,3 +109,5 @@ function file2json(path,encoding) {
     }
     
 }
+
+
