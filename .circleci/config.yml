@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
         name: install
-        command: npm install
+        command: yarn 
       - run:
         name: release
-        command: yarn test
+        command: yarn test || true
