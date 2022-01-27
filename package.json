@@ -23,6 +23,7 @@
   "homepage": "https://github.com/Changlon/f2json#readme",
   "scripts": {
     "test": "mocha __tests__/*.test.js ",
+    "test:w":"mocha __tests__/*.test.js -w",
     "semantic-release": "semantic-release"
   },
   "devDependencies": {

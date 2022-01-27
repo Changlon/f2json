@@ -48,12 +48,17 @@ function F2Json(dirname) {
 F2Json.prototype.getLastCallDirname = function () {   
      const fileNames = callsite() 
      for(let i =0;i<fileNames.length;++i) { 
-         if(fileNames[i].getFileName().startsWith("internal")) {
+         const filename = fileNames[i].getFileName()
+         if(
+             filename.startsWith("internal") || 
+             filename.startsWith("node") 
+         ) {
              const  dirnames  =  (fileNames[i-1].getFileName()).split(sep)  
               return dirnames.pop() && dirnames.join(sep)
          }
      }
 }
+
 
 
 /**
@@ -75,12 +80,12 @@ F2Json.prototype.getLastCallDirname = function () {
     try {
 
         json = JSON.stringify( json || {} )
-        
-        if(path_.startsWith(".")){ 
+        if( "." === path_[0]){ 
             path_ = path.join(this.dirname,path_) 
         }
 
         fs.writeFileSync(path_,json) 
+
     }catch(e) {
         throw new F2JsonError(e.message)
     }
@@ -108,7 +113,7 @@ F2Json.prototype.file2json = function(path_,encoding) {
 
     try { 
 
-        if(path_.startsWith(".")){
+        if("." === path_[0]){
             path_ = path.join(this.dirname,path_) 
         }
 

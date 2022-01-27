@@ -9,5 +9,5 @@ jobs:
         name: install
         command: yarn 
       - run:
-        name: release
-        command: yarn test || true
+        name: test 
+        command: yarn test
