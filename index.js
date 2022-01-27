@@ -7,55 +7,85 @@
  */
 
 
-var FS = require('fs')  
-var PATH = require('path')  
 
-class F2Json extends Error{
+var fs = require('fs')  
+var path = require('path')   
+var callsite = require('callsite')
+const { sep } = require('path')
+
+class F2JsonError extends Error{
     constructor(message) {  
         super(message)
     }
 }
+
+
+
+
 
 /**
  * @module f2json 
  */
 
 
-module.exports = { 
-    json2file,
-    file2json
+module.exports = F2Json 
+module.exports.F2JsonError = F2JsonError
+/**
+ * Create f2Json 
+ * 
+ * @param {String} dirname 
+ */
+function F2Json(dirname) { 
+    if(!(this instanceof F2Json)) return new F2Json(dirname)   
+    this.dirname = dirname || this.getLastCallDirname() 
+}
+
+/**
+ * Returns the file path that called this function
+ * 
+ * @returns {String}
+ */
+F2Json.prototype.getLastCallDirname = function () {   
+     const fileNames = callsite() 
+     for(let i =0;i<fileNames.length;++i) { 
+         if(fileNames[i].getFileName().startsWith("internal")) {
+             const  dirnames  =  (fileNames[i-1].getFileName()).split(sep)  
+              return dirnames.pop() && dirnames.join(sep)
+         }
+     }
 }
 
 
 /**
  * Writes the json object as data to the specified fileWrites the json object as data to the specified file
- * @param {*} path 
- * @param {*} json 
+ * @param {String} path 
+ * @param {Object} json 
  */
- function json2file(path,json) {  
+ F2Json.prototype.json2file = function(path_,json) {   
     if(
-       path === "" || 
-       path === undefined || 
-       path ===null
+       path_ === "" || 
+       path_ === undefined || 
+       path_ ===null
     ) {
-        throw new F2Json("function json2file require param path [string] !") 
+        throw new F2JsonError("function json2file require param path [string] !") 
     }
 
-    if(typeof path !== "string" )  throw new F2Json("invalid param of path ,require type string !")
+    if(typeof path_ !== "string" )  throw new F2JsonError("invalid param of path_ ,require type string !")
 
     try {
+
         json = JSON.stringify( json || {} )
         
-        if(path.startsWith(".")){
-            path = PATH.join(__dirname,path) 
+        if(path_.startsWith(".")){ 
+            path_ = path.join(this.dirname,path_) 
         }
 
-        FS.writeFileSync(path,json)
-
+        fs.writeFileSync(path_,json) 
     }catch(e) {
-        throw new F2Json(e.message)
+        throw new F2JsonError(e.message)
     }
 }
+
 
 /**
  * Read the file as a Json object in Json format
@@ -65,47 +95,38 @@ module.exports = {
  * @returns {Object.<json,ok>} returns data json and function ok 
  * When you call the OK function, the modified data json is saved to the corresponding file 
  */
-function file2json(path,encoding) { 
+F2Json.prototype.file2json = function(path_,encoding) { 
     if(
-        path === "" || 
-        path === undefined || 
-        path ===null
+        path_ === "" || 
+        path_ === undefined || 
+        path_ ===null
      ) {
-         throw new F2Json("function json2file require param path [string] !") 
+         throw new F2JsonError("function json2file require param path [string] !") 
      }
  
-     if(typeof path !== "string" )  throw new F2Json("invalid param of path ,require type string !")
+     if(typeof path_ !== "string" )  throw new F2JsonError("invalid param of path_ ,require type string !")
 
     try { 
 
-        if(path.startsWith(".")){
-            path = PATH.join(__dirname,path) 
-        }else if(path.startsWith("@/")) {
-            path = path.replace("@/","")  
-            path = PATH.join( 
-                
-                FS.existsSync(PATH.join(__dirname,"./src")) ?  
-                      PATH.join(__dirname,"./src")
-                : __dirname
-                ,path) 
-            console.log(path)
+        if(path_.startsWith(".")){
+            path_ = path.join(this.dirname,path_) 
         }
-        
-        let content = FS.readFileSync(path,{
+
+        let content = fs.readFileSync(path_,{
             encoding: encoding || "utf-8"
         })  
-        
+       
         let json = JSON.parse(content) 
         
         return {
             json ,
             ok:() => {  
-              json2file(path,json) 
+              this.json2file(path_,json) 
             }
         }
 
     }catch(e) {
-        throw new F2Json(e.message)
+        throw new F2JsonError(e.message)
     }
     
 }
