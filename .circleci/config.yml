@@ -1,6 +1,5 @@
 version: 2.1
 jobs:
-
   build:
     docker:
       - image: cimg/node:17.2
@@ -9,12 +8,9 @@ jobs:
       - run:
           name: install 
           command: npm install 
-       - run:  
+      - run:  
           name: test
           command: npm run test 
-       - run: 
+      - run: 
           name: success
           command: npm run semantic-release    
-
- 
-
