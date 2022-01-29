@@ -1,7 +1,7 @@
 const fs = require("fs")
 const path = require("path")
 const { expect } = require("chai")
-const F2Json = require("..")  
+const F2Json = require('..')
 const {F2JsonError} = F2Json
 
 describe("f2json",()=>{

@@ -2,24 +2,15 @@
 /**
  *  Quickly create read-write json files
  * 
- *  @author  Changlon <thinker_changlon@163.com>
+ *  @author  Changlon <changlong.a2@gmail.com>
  *  @github  https://github.com/Changlon
  */
-
 
 
 var fs = require('fs')  
 var path = require('path')   
 var callsite = require('callsite')
-const { sep } = require('path')
-
-class F2JsonError extends Error{
-    constructor(message) {  
-        super(message)
-    }
-}
-
-
+var { sep } = require('path')
 
 
 
@@ -30,11 +21,36 @@ class F2JsonError extends Error{
 
 module.exports = F2Json 
 module.exports.F2JsonError = F2JsonError
+
 /**
  * Create f2Json 
  * 
- * @param {String} dirname 
+ * @example 
+ * 
+ * Basic usage: 
+ * 
+ * ```javascript
+ * 
+ * index.js :
+ * 
+ * var F2Json = require("f2json")  
+ * var f2json = new F2Json()
+ * 
+ * f2json.json2file("./cache/user.json",[
+ *      {name:"Changlon",age:22},
+*        ...
+ * ])
+ * 
+ * var {json} =  f2json.file2json("./cache/user.json") 
+ * 
+ * console.log(json) 
+ * 
+ * ```
+ * @alias module:f2json
+ * @param {String=} dirname Optional,You can also pass in a relative path such as ```__dirname``` in your code file  
+ * @constructor
  */
+
 function F2Json(dirname) { 
     if(!(this instanceof F2Json)) return new F2Json(dirname)   
     this.dirname = dirname || this.getLastCallDirname() 
@@ -167,3 +183,8 @@ F2Json.prototype.clear = function(path_) {
      }
 }
 
+class F2JsonError extends Error{
+    constructor(message) {  
+        super(message)
+    }
+}

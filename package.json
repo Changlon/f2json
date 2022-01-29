@@ -24,10 +24,11 @@
   "scripts": {
     "test": "istanbul cover -x *.test.js node_modules/mocha/bin/_mocha -- -R spec test/*.test.js",
     "check-coverage": "istanbul check-coverage --statements 85 --branches 85 --functions 100 --lines 90",
-    "report-coverage":"cat ./coverage/lcov.info | codecov",
+    "report-coverage": "cat ./coverage/lcov.info | codecov",
     "test:w": "mocha  -w",
     "semantic-release": "semantic-release",
-    "commit": "cz"
+    "commit": "cz",
+    "docs":"jsdoc2md index.js --template .github/README_tpl.hbs  > README.md"
   },
   "devDependencies": {
     "chai": "4.3.6",
@@ -36,12 +37,17 @@
     "cz-conventional-changelog": "3.3.0",
     "ghooks": "2.0.4",
     "istanbul": "0.4.5",
+    "jsdoc-to-markdown": "7.1.1",
     "mocha": "9.2.0",
     "semantic-release": "^19.0.2"
   },
   "dependencies": {
     "callsite": "1.0.0"
   },
+  "files": [
+    "index.d.ts",
+    "index.js"
+  ],
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
