@@ -2,12 +2,12 @@ version: 2
 jobs:
   build:
     docker:
-      - image: 'circleci/node:latest'
+      - image: circleci/node:16.13.2
     steps:
       - checkout
       - run:
-        name: install
-        command: yarn 
+          name: install
+          command: npm install 
       - run:
-        name: test 
-        command: yarn test
+          name: test     
+          command: npm run test 
