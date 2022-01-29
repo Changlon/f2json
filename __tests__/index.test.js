@@ -80,6 +80,19 @@ describe("f2json",()=>{
         }) 
 
     })
+
+
+    describe("clear",()=>{
+        it("should reset the file content as empty json Object",done=>{
+            f2json.json2file("../test.json",{
+                a:"test"
+            })
+            f2json.clear("../test.json") 
+            const data = f2json.file2json("../test.json") 
+            expect(data.json.a).to.be.undefined 
+            fs.rm(path.join(process.cwd(),"./test.json"),()=>{done()})
+        })
+    })
    
 })
 

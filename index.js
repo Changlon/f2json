@@ -137,3 +137,34 @@ F2Json.prototype.file2json = function(path_,encoding) {
 }
 
 
+/**
+ * Type an empty json object into the specified file
+ * @param {String} path_ 
+ */
+F2Json.prototype.clear = function(path_) { 
+
+    if(
+        path_ === "" || 
+        path_ === undefined || 
+        path_ ===null
+     ) {
+         throw new F2JsonError("function json2file require param path [string] !") 
+     }
+ 
+     if(typeof path_ !== "string" )  throw new F2JsonError("invalid param of path_ ,require type string !")
+ 
+     try {
+ 
+         json = JSON.stringify(  {} )
+         if( "." === path_[0]){ 
+             path_ = path.join(this.dirname,path_) 
+         }
+ 
+         fs.writeFileSync(path_,json) 
+ 
+     }catch(e) {
+         throw new F2JsonError(e.message)
+     }
+}
+
+
