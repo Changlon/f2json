@@ -14,8 +14,8 @@ jobs:
       - run: 
           name: check-report-coverage
           command: | 
-          npm run check-coverage     
-          npm run report-coverage
+             npm run check-coverage     
+             npm run report-coverage
       - run: 
           name: success
           command: npm run semantic-release      
