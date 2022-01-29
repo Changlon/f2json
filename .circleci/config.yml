@@ -13,4 +13,4 @@ jobs:
           command: npm run test 
       - run: 
           name: success
-          command: npm run semantic-release    
+          command: npm run semantic-release      
