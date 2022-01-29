@@ -1,32 +1,57 @@
 version: 2.1
-
-orbs:
-  browser-tools: circleci/browser-tools@1.1.0
 jobs:
-  build:
-    # pre-built images: https://circleci.com/docs/2.0/circleci-images/
+  Hello-World:
     docker:
-      - image: cimg/node:17.2-browsers
+      - image: alpine:3.7
     steps:
-      - checkout
-      - browser-tools/install-browser-tools
       - run:
-          name: The First Step
+          name: Hello World
           command: |
             echo 'Hello World!'
             echo 'This is the delivery pipeline'
+  I-Have-Code:
+    docker:
+      - image: alpine:3.7
+    steps:
+      - checkout
       - run:
           name: Code Has Arrived
           command: |
             ls -al
             echo '^^^That should look familiar^^^'
+  Run-With-Node:
+    docker:
+      - image: cimg/node:17.2
+    steps:
       - run:
-          name: Running in a Unique Container
+          name: Running In A Container With Node
           command: |
             node -v
-      - run:  
-          name: install
-          command: npm install 
-      - run:  
-          name: Tests
-          command: npm run test
+  Now-Complete:
+    docker:
+      - image: alpine:3.7
+    steps:
+      - run:
+          name: Approval Complete
+          command: |
+            echo 'Do work once the approval has completed'
+
+workflows:
+ Example_Workflow:
+   jobs:
+     - Hello-World
+     - I-Have-Code:
+         requires:
+           - Hello-World
+     - Run-With-Node:
+         requires:
+           - Hello-World
+     - Hold-For-Approval:
+         type: approval
+         requires:
+           - Run-With-Node
+           - I-Have-Code
+     - Now-Complete:
+         requires:
+           - Hold-For-Approval
+           
