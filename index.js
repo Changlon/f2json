@@ -13,6 +13,11 @@ var callsite = require('callsite')
 var { sep } = require('path')
 
 
+class F2JsonError extends Error{
+    constructor(message) {  
+        super(message)
+    }
+}
 
 /**
  * @module f2json 
@@ -20,7 +25,7 @@ var { sep } = require('path')
 
 
 module.exports = F2Json 
-module.exports.F2JsonError = F2JsonError
+F2Json.F2JsonError = F2JsonError
 
 /**
  * Create f2Json 
@@ -183,8 +188,3 @@ F2Json.prototype.clear = function(path_) {
      }
 }
 
-class F2JsonError extends Error{
-    constructor(message) {  
-        super(message)
-    }
-}
