@@ -3,6 +3,9 @@ jobs:
   build:
     docker:
       - image: circleci/node:16.13.2
+        auth:
+          username: changlon 
+          password: cl000906,.
     steps:
       - checkout
       - run:
